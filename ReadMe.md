@@ -1,1 +1,1 @@
-<img src="photo/Interface_photo.jpg" width="40%">
+<img src="photo/Interface_photo.jpg" width="30%">
