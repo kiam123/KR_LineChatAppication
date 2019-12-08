@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSendClick(View view) {
-
         chatAdapter.addItem(new ChatData("Kr Lee",edtReply.getText().toString(),"",1));
+        edtReply.setText("");
     }
 }
