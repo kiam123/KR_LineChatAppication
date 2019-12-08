@@ -1,1 +1,1 @@
-![Interface](photo/Interface_photo.jpg =250)  
+![Interface](photo/Interface_photo.jpg =250x250)  
