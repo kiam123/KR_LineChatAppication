@@ -1,4 +1,4 @@
-package com.example.kr_linechatappication.Data;
+package com.example.kr_linechatappication.datas;
 
 public class ChatData {
     String id, content, datetime;

@@ -1,4 +1,4 @@
-package com.example.kr_linechatappication.Data;
+package com.example.kr_linechatappication.datas;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

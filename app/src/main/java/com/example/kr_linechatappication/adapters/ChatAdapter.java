@@ -1,4 +1,4 @@
-package com.example.kr_linechatappication.Adapter;
+package com.example.kr_linechatappication.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kr_linechatappication.Data.ChatData;
-import com.example.kr_linechatappication.Data.CircleTransform;
+import com.example.kr_linechatappication.datas.ChatData;
+import com.example.kr_linechatappication.datas.CircleTransform;
 import com.example.kr_linechatappication.R;
 import com.squareup.picasso.Picasso;
 

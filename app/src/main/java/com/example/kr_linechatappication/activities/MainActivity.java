@@ -1,4 +1,4 @@
-package com.example.kr_linechatappication.Activitity;
+package com.example.kr_linechatappication.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.kr_linechatappication.Adapter.ChatAdapter;
-import com.example.kr_linechatappication.Data.ChatData;
+import com.example.kr_linechatappication.adapters.ChatAdapter;
+import com.example.kr_linechatappication.datas.ChatData;
 import com.example.kr_linechatappication.R;
 
 public class MainActivity extends AppCompatActivity {
