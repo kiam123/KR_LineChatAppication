@@ -1,43 +1,41 @@
 {
-  "member": {
-    "kr-lee": {
-      "friends" : {
-        "takuma-lee" : {
-          "chat-content": {
-            "timestamp" : {
-              "id" : "takuma-lee",
-              "type": "text",
-              "text-content":"你好啊，Kr Lee 我是你的導師",
-              "imageUrl": "",
-              "datetime": ""
-            }, "timestamp" : {
-              "id" : "kr-lee",
-              "type": "text",
-              "text-content":"你好， 我叫Kr Lee，很開心認識你，有幸在你的領導之下，可以變得更強",
-              "imageUrl": "",
-              "datetime": ""
-            }
+  "kr-lee": {
+    "friends": {
+      "takuma-lee": {
+        "chatContent": {
+          "1575868225": {
+            "id": "takuma-lee",
+            "type": "text",
+            "textContent": "你好啊，Kr Lee 我是你的導師",
+            "imageUrl": "",
+            "datetime": ""
+          },
+          "1575868280": {
+            "id": "kr-lee",
+            "type": "text",
+            "textContent": "你好， 我叫Kr Lee，很開心認識你，有幸在你的領導之下，可以變得更強",
+            "imageUrl": ""
           }
         }
       }
-    },
-    "takuma-lee": {
-      "friends" : {
-        "kr-lee" : {
-          "chat-content": {
-            "timestamp" : {
-              "id" : "takuma-lee",
-              "type": "text",
-              "text-content":"你好啊，Kr Lee 我是你的導師",
-              "imageUrl": "",
-              "datetime": ""
-            }, "timestamp" : {
-              "id" : "kr-lee",
-              "type": "text",
-              "text-content":"你好， 我叫Kr Lee，很開心認識你，有幸在你的領導之下，可以變得更強",
-              "imageUrl": "",
-              "datetime": ""
-            }
+    }
+  },
+  "takuma-lee": {
+    "friends": {
+      "kr-lee": {
+        "chatContent": {
+          "1575868225": {
+            "id": "takuma-lee",
+            "type": "text",
+            "textContent": "你好啊，Kr Lee 我是你的導師",
+            "imageUrl": "",
+            "datetime": ""
+          },
+          "1575868280": {
+            "id": "kr-lee",
+            "type": "text",
+            "textContent": "你好， 我叫Kr Lee，很開心認識你，有幸在你的領導之下，可以變得更強",
+            "imageUrl": ""
           }
         }
       }
