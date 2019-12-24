@@ -2,7 +2,7 @@ package com.example.kr_linechatappication.datas;
 
 public class ChatData {
     String id, content, datetime;
-    int type;
+    int type, mChatView;
 
     public ChatData(String id, String content, String datetime, int type){
         this.id = id;
@@ -25,5 +25,9 @@ public class ChatData {
 
     public int getType() {
         return type;
+    }
+
+    public int getmChatView() {
+        return mChatView;
     }
 }

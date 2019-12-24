@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -42,24 +42,51 @@
                 android:layout_weight="0"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/edt_reply"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/edit_text_oval"
-                    android:ems="10"
-                    android:hint="輸入消息..."
-                    android:inputType="textMultiLine"
-                    android:maxLines="4"
-                    android:paddingLeft="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
                     android:paddingRight="10dp"
-                    android:scrollbars="vertical" />
+                    android:paddingBottom="5dp">
+
+                    <EditText
+                        android:id="@+id/edt_reply"
+                        android:layout_width="0dp"
+                        android:layout_height="34dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:ems="10"
+                        android:hint="輸入消息..."
+                        android:inputType="textMultiLine"
+                        android:maxLines="4"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:scrollbars="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/imgIcon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imgIcon"
+                        android:layout_width="73dp"
+                        android:layout_height="28dp"
+                        android:onClick="onIconClick"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/edt_reply"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/button_oval" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <Button
                     android:id="@+id/btn_send2"
                     android:layout_width="wrap_content"
@@ -68,6 +95,30 @@
                     android:onClick="onSendClick"
                     android:text="送出" />
             </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/iconLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="220dp">
+
+            </androidx.viewpager.widget.ViewPager>
+            <!--                app:tabGravity="fill"-->
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/iconTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabMode="scrollable"></com.google.android.material.tabs.TabLayout>
 
         </LinearLayout>
     </LinearLayout>

@@ -21,17 +21,22 @@ import java.util.ArrayList;
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
     ArrayList<ChatData> chatDataArrayList;
-    public static final int VIEW_TYPE_SELF_CHAT = 1;
-    public static final int VIEW_TYPE_FRIEND_CHAT = 2;
+    RecyclerView chatRecyclerView;
+    public static final int VIEW_TYPE_SELF_TEXT_CHAT = 10;
+    public static final int VIEW_TYPE_SELF_IMAGE_CHAT = 11;
+    public static final int VIEW_TYPE_FRIEND_TEXT_CHAT = 20;
+    public static final int VIEW_TYPE_FRIEND_IMAGE_CHAT = 21;
 
-    public ChatAdapter(Context context) {
+    public ChatAdapter(Context context, RecyclerView chatRecyclerView) {
         this.mContext = context;
         this.chatDataArrayList = new ArrayList<ChatData>();
+        this.chatRecyclerView = chatRecyclerView;
     }
 
     public void addItem(ChatData chatData) {
         chatDataArrayList.add(chatData);
         notifyDataSetChanged();
+        chatRecyclerView.smoothScrollToPosition(chatDataArrayList.size());
         Log.v("test123","111");
         Log.v("test123",""+chatDataArrayList.size());
     }
@@ -41,14 +46,22 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.v("test123","2");
         View view;
-        if(viewType == VIEW_TYPE_SELF_CHAT) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.layout_self_chat, parent, false);
+        if(viewType == VIEW_TYPE_SELF_TEXT_CHAT) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.layout_self_text_chat, parent, false);
             Log.v("test123","3");
             return new SelfChatViewHolder(view);
-        } else if(viewType == VIEW_TYPE_FRIEND_CHAT) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.layout_friend_chat, parent, false);
+        } else if(viewType == VIEW_TYPE_SELF_IMAGE_CHAT) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.layout_self_image_chat, parent, false);
+            Log.v("test123","3");
+            return new SelfImageChatViewHolder(view);
+        } else if(viewType == VIEW_TYPE_FRIEND_TEXT_CHAT) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.layout_friend_text_chat, parent, false);
             Log.v("test123","4");
             return new FriendChatViewHolder(view);
+        } else if(viewType == VIEW_TYPE_FRIEND_IMAGE_CHAT) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.layout_friend_image_chat, parent, false);
+            Log.v("test123","4");
+            return new FriendImageChatViewHolder(view);
         }
 
         return null;
@@ -57,12 +70,18 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Log.v("test123","5");
-        if(getItemViewType(position) == VIEW_TYPE_SELF_CHAT) {
+        if(getItemViewType(position) == VIEW_TYPE_SELF_TEXT_CHAT) {
             ChatData chatData = (ChatData) chatDataArrayList.get(position);
             ((SelfChatViewHolder) holder).bindToSelf(chatData);
-        } else if(getItemViewType(position) == VIEW_TYPE_FRIEND_CHAT) {
+        } else if(getItemViewType(position) == VIEW_TYPE_SELF_IMAGE_CHAT) {
+            ChatData chatData = (ChatData) chatDataArrayList.get(position);
+            ((SelfImageChatViewHolder) holder).bindToSelf(chatData);
+        } else if(getItemViewType(position) == VIEW_TYPE_FRIEND_TEXT_CHAT) {
             ChatData chatData = (ChatData) chatDataArrayList.get(position);
             ((FriendChatViewHolder) holder).bindToSelf(chatData);
+        } else if(getItemViewType(position) == VIEW_TYPE_FRIEND_IMAGE_CHAT) {
+            ChatData chatData = (ChatData) chatDataArrayList.get(position);
+            ((FriendImageChatViewHolder) holder).bindToSelf(chatData);
         }
 
     }
@@ -94,6 +113,19 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    class SelfImageChatViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
+
+        public SelfImageChatViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+        }
+
+        public void bindToSelf(ChatData chatData) {
+            Picasso.get().load(chatData.getContent()).into(imageView);
+        }
+    }
+
     class FriendChatViewHolder extends RecyclerView.ViewHolder {
         ImageView imgHeader;
         TextView txtContent;
@@ -101,12 +133,25 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemView);
             Log.v("test123","8");
             imgHeader = (ImageView) itemView.findViewById(R.id.img_header);
-            Picasso.get().load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imgHeader);
+            txtContent = (TextView) itemView.findViewById(R.id.txtContent);
         }
 
         public void bindToSelf(ChatData chatData) {
-            txtContent = (TextView) itemView.findViewById(R.id.txtContent);
+            Picasso.get().load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imgHeader);
             txtContent.setText(chatData.getContent());
+        }
+    }
+
+    class FriendImageChatViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
+
+        public FriendImageChatViewHolder(@NonNull View itemView) {
+            super(itemView);
+            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+        }
+
+        public void bindToSelf(ChatData chatData) {
+            Picasso.get().load(chatData.getContent()).into(imageView);
         }
     }
 }
