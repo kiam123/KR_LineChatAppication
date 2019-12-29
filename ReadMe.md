@@ -1,6 +1,6 @@
 <img src="photo/Interface_photo.jpg" width="30%">
-<img src="photo/Interface_photo.jpg2" width="30%">
-<img src="photo/Interface_photo.jpg3" width="30%">
+<img src="photo/Interface_photo2.jpg" width="30%">
+<img src="photo/Interface_photo3.jpg" width="30%">
 
 
 ## 任務
