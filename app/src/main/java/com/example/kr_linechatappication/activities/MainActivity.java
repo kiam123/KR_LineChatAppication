@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         int i=0;
                         for(DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                            if(size > simpleFragmentPagerAdapter.getItem().size() && snapshot.getKey().equals("catHeaderUrl")) {
+                            if(simpleFragmentPagerAdapter.getItem().size() < size  && snapshot.getKey().equals("catHeaderUrl")) {
                                 Log.v("testttting", snapshot.toString());
                                 simpleFragmentPagerAdapter.addItem(new IconFragment(chatAdapter, iconId));
                                 iconTabLayout.getTabAt(i).setCustomView(getTabView(i, snapshot.getValue().toString()));
