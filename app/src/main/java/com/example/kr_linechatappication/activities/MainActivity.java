@@ -1,13 +1,12 @@
 package com.example.kr_linechatappication.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,16 +15,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.kr_linechatappication.adapters.ChatAdapter;
 import com.example.kr_linechatappication.adapters.SimpleFragmentPagerAdapter;
 import com.example.kr_linechatappication.datas.ChatData;
 import com.example.kr_linechatappication.R;
-import com.example.kr_linechatappication.fragments.BlankFragment;
+import com.example.kr_linechatappication.datas.UserInfo;
+import com.example.kr_linechatappication.fragments.IconFragment;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,15 +41,19 @@ public class MainActivity extends AppCompatActivity {
     ViewPager iconViewPager;
     TabLayout iconTabLayout;
     LinearLayout iconLayout;
-    ImageView imgIcon;
     private ArrayList<Fragment> fragmentArrayList = new ArrayList<Fragment>();
     SimpleFragmentPagerAdapter simpleFragmentPagerAdapter;
+    boolean iconFlag = false;
+
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getUserData();
         initView();
         setChatRecyclerView();
         setIconRecyclerView();
@@ -60,10 +66,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void getUserData() {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        myRef.child("kr-lee").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot: dataSnapshot.child("icons").getChildren()) {
+                    UserInfo.getInstance().addIcon(snapshot.getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+    }
+
     public void onSendClick(View view) {
         chatAdapter.addItem(new ChatData("Kr Lee",edtReply.getText().toString(),"",10));
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference myRef = database.getReference();
 
         String id = "kr-Lee";
         String friendId = "takuma-lee";
@@ -79,10 +101,8 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         edtReply = (EditText) findViewById(R.id.edt_reply) ;
         chatRecyclerView = (RecyclerView) findViewById(R.id.chatRecyclerView);
-//        iconRecyclerView = (RecyclerView) findViewById(R.id.iconRecyclerView);
         iconViewPager = (ViewPager) findViewById(R.id.viewPager);
         iconTabLayout = (TabLayout) findViewById(R.id.iconTabLayout);
-//        imgIcon = (ImageView) findViewById(R.id.imgIcon);
         iconLayout = (LinearLayout) findViewById(R.id.iconLayout);
     }
 
@@ -94,48 +114,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setIconRecyclerView() {
-        simpleFragmentPagerAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(),fragmentArrayList, this, iconTabLayout);
+        simpleFragmentPagerAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(),fragmentArrayList, this);
         iconViewPager.setAdapter(simpleFragmentPagerAdapter);
         iconTabLayout.setupWithViewPager(iconViewPager);
-
-        Drawable myIcon = getResources().getDrawable(R.drawable.ic_launcher);
-        simpleFragmentPagerAdapter.addItem(new BlankFragment(chatAdapter), myIcon);
-        simpleFragmentPagerAdapter.addItem(new BlankFragment(chatAdapter), myIcon);
-        simpleFragmentPagerAdapter.addItem(new BlankFragment(chatAdapter), myIcon);
-        simpleFragmentPagerAdapter.addItem(new BlankFragment(chatAdapter), myIcon);
-        simpleFragmentPagerAdapter.addItem(new BlankFragment(chatAdapter), myIcon);
-        simpleFragmentPagerAdapter.addItem(new BlankFragment(chatAdapter), myIcon);
-        simpleFragmentPagerAdapter.addItem(new BlankFragment(chatAdapter), myIcon);
-        simpleFragmentPagerAdapter.addItem(new BlankFragment(chatAdapter), myIcon);
-
-        setupTabIcons();
     }
 
-    //初始化tab
-    private void setupTabIcons() {
-        try {
-            for(int i=0;i < simpleFragmentPagerAdapter.getIconArrayListSize();i++) {
-                iconTabLayout.getTabAt(i).setCustomView(getTabView(i));
-            }
-        }catch (Exception exception) {
-            Log.v("tesst", exception.toString());
-        }
-
-    }
-
-    //自定義tab
-    public View getTabView(int position) {
-        View view = LayoutInflater.from(this).inflate(R.layout.layout_icon, null);//自定義layout設定tab（部落格，記錄，待吃，個人）裡面的設計
+    public View getTabView(int position, String icon) {
+        View view = LayoutInflater.from(this).inflate(R.layout.layout_icon, null);
         TextView txt_title = (TextView) view.findViewById(R.id.textView);
-//        txt_title.setText(titles.get(position));
         ImageView img_title = (ImageView) view.findViewById(R.id.imageView);
-        Picasso.get().load(R.drawable.ic_launcher).into(img_title);
+        Picasso.get().load(icon).into(img_title);
 
         return view;
     }
 
     public void onIconClick(View view) {
-//        Toast.makeText(this,"1",Toast.LENGTH_LONG).show();
-        iconLayout.setVisibility(View.VISIBLE);
+        if(!iconFlag) {
+            iconLayout.setVisibility(View.VISIBLE);
+            iconFlag = true;
+
+//            FirebaseDatabase database = FirebaseDatabase.getInstance();
+//            DatabaseReference myRef = database.getReference();
+            final int size = UserInfo.getInstance().getIconList().size();
+            for(int i=0;i < UserInfo.getInstance().getIconList().size();i++) {
+                final String iconId = UserInfo.getInstance().getIconList().get(i);
+                myRef.child("icon").child(iconId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        int i=0;
+                        for(DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                            if(size > simpleFragmentPagerAdapter.getItem().size() && snapshot.getKey().equals("catHeaderUrl")) {
+                                Log.v("testttting", snapshot.toString());
+                                simpleFragmentPagerAdapter.addItem(new IconFragment(chatAdapter, iconId));
+                                iconTabLayout.getTabAt(i).setCustomView(getTabView(i, snapshot.getValue().toString()));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {}
+                });
+            }
+
+
+        } else {
+            iconLayout.setVisibility(View.GONE);
+            iconFlag = false;
+        }
     }
+
 }

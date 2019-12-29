@@ -21,18 +21,20 @@ import java.util.ArrayList;
 public class SimpleFragmentPagerAdapter extends FragmentStatePagerAdapter {
     Context mContext;
     ArrayList<Fragment> fragmentArrayList = new ArrayList<Fragment>();
-    TabLayout iconTabLayout;
 
-    public SimpleFragmentPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragmentArrayList, Context context, TabLayout iconTabLayout) {
+    public SimpleFragmentPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragmentArrayList, Context context) {
         super(fm);
         this.fragmentArrayList = fragmentArrayList;
         this.mContext = context;
-        this.iconTabLayout = iconTabLayout;
     }
 
-    public void addItem(Fragment fragment, Drawable icon) {
+    public void addItem(Fragment fragment) {
         fragmentArrayList.add(fragment);
         notifyDataSetChanged();
+    }
+
+    public ArrayList<Fragment> getItem() {
+        return fragmentArrayList;
     }
 
     public int getIconArrayListSize(){

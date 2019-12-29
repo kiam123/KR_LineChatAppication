@@ -1,4 +1,18 @@
 {
+  "icon" : {
+    "catIcon" : {
+      "catHeaderUrl" : "https://i.imgur.com/nksxrDq.png",
+	  "icons" : [
+		"https://i.imgur.com/NUyttbnb.jpg",
+		"https://i.imgur.com/4JhqfEP.jpg",
+		"https://i.imgur.com/xhCVLWv.jpg",
+		"https://i.imgur.com/gtj6PPR.jpg",
+		"https://i.imgur.com/w0OllME.jpg",
+		"https://i.imgur.com/B6BZCiG.jpg",
+		"https://i.imgur.com/4A3DacU.jpg"
+	  ]
+    }
+  },
   "kr-lee": {
     "friends": {
       "takuma-lee": {
@@ -17,26 +31,9 @@
           }
         }
       }
-    }
-  },
-  "takuma-lee": {
-    "friends": {
-      "kr-lee": {
-        "chatContent": {
-          "1575868225": {
-            "id": "takuma-lee",
-            "type": "text",
-            "textContent": "你好啊，Kr Lee 我是你的導師",
-            "imageUrl": ""
-          },
-          "1575868280": {
-            "id": "kr-lee",
-            "type": "text",
-            "textContent": "你好， 我叫Kr Lee，很開心認識你，有幸在你的領導之下，可以變得更強",
-            "imageUrl": ""
-          }
-        }
-      }
-    }
+    },
+	"icons": [
+		"catIcon"
+	]
   }
 }

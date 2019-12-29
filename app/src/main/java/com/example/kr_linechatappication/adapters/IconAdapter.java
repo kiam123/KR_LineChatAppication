@@ -36,7 +36,7 @@ public class IconAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_icon, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_icon_view_pager, parent, false);
         return new IconChatViewHolder(view);
     }
 
