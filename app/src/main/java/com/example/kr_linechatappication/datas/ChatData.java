@@ -1,14 +1,22 @@
 package com.example.kr_linechatappication.datas;
 
 public class ChatData {
-    String id, content, datetime;
+    String id, content, mTimeStamp;
     int type, mChatView;
 
-    public ChatData(String id, String content, String datetime, int type){
+
+
+    public ChatData(String id, String content, String timeStamp, int type) {
         this.id = id;
         this.content = content;
-        this.datetime = datetime;
+        this.mTimeStamp = timeStamp;
         this.type = type;
+    }
+
+    public ChatData(String timeStamp, String sender, String receiver, String content, String type, String imageURL) {
+        this.id = sender;
+        this.content = content;
+        this.mTimeStamp = timeStamp;
     }
 
     public String getId() {
@@ -19,8 +27,8 @@ public class ChatData {
         return content;
     }
 
-    public String getDatetime() {
-        return datetime;
+    public String getTimeStamp() {
+        return mTimeStamp;
     }
 
     public int getType() {

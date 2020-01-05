@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.example.kr_linechatappication.R;
 import com.example.kr_linechatappication.datas.ChatData;
 import com.example.kr_linechatappication.datas.IconData;
@@ -73,7 +74,8 @@ public class IconAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void bindToSelf(IconData iconData) {
-            Picasso.get().load(iconData.getmImageIcon()).into(imageView);
+//            Picasso.get().load(iconData.getmImageIcon()).into(imageView);
+            Glide.with(mContext).load(iconData.getmImageIcon()).into(imageView);
         }
 
         @Override

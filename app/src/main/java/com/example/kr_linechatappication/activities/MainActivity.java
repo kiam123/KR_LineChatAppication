@@ -7,19 +7,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.kr_linechatappication.adapters.ChatAdapter;
 import com.example.kr_linechatappication.adapters.SimpleFragmentPagerAdapter;
 import com.example.kr_linechatappication.datas.ChatData;
 import com.example.kr_linechatappication.R;
+import com.example.kr_linechatappication.datas.ChatData2;
 import com.example.kr_linechatappication.datas.UserInfo;
 import com.example.kr_linechatappication.fragments.IconFragment;
 import com.google.android.material.tabs.TabLayout;
@@ -58,44 +62,32 @@ public class MainActivity extends AppCompatActivity {
         setChatRecyclerView();
         setIconRecyclerView();
 
+        testcase();
+        getChatMessenge();
+    }
+
+    public void testcase() {
         chatAdapter.addItem(new ChatData("Takuma Lee","你好啊，Kr Lee 我是你的導師","",20));
         chatAdapter.addItem(new ChatData("Kr Lee","https://i.imgur.com/NUyttbnb.jpg","",21));
         chatAdapter.addItem(new ChatData("Kr Lee","你好， 我叫Kr Lee，很開心認識你，有幸在你的領導之下，可以變得更強","",10));
         chatAdapter.addItem(new ChatData("Kr Lee","https://i.imgur.com/NUyttbnb.jpg","",11));
-        // Write a message to the database
-
     }
 
     public void getUserData() {
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-        myRef.child("kr-lee").addValueEventListener(new ValueEventListener() {
+        myRef.child("users").child("kr-lee").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot: dataSnapshot.child("icons").getChildren()) {
                     UserInfo.getInstance().addIcon(snapshot.getValue().toString());
+                }
+                for(DataSnapshot snapshot: dataSnapshot.child("friends").getChildren()) {
+                    UserInfo.getInstance().addFriend(snapshot.getValue().toString());
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
-    }
-
-    public void onSendClick(View view) {
-        chatAdapter.addItem(new ChatData("Kr Lee",edtReply.getText().toString(),"",10));
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference myRef = database.getReference();
-
-        String id = "kr-Lee";
-        String friendId = "takuma-lee";
-        String timesamp = Calendar.getInstance().getTimeInMillis()+"";
-        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("id").setValue("takuma-lee");
-        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("type").setValue("text");
-        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("textContent").setValue(edtReply.getText().toString());
-        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("imageUrl").setValue("");
-
-        edtReply.setText("");
     }
 
     private void initView() {
@@ -119,22 +111,67 @@ public class MainActivity extends AppCompatActivity {
         iconTabLayout.setupWithViewPager(iconViewPager);
     }
 
+    public void getChatMessenge() {
+//        Log.v("ImageURLl", "123123");
+        final ArrayList<String> chatId = new ArrayList<String>();
+        myRef.child("users").child("kr-lee").child("friends").child("takuma-lee").child("chatId").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                chatId.clear();
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    chatId.add(snapshot.getValue().toString());
+//                    Log.v("ImageURLl",snapshot.getValue().toString());
+                }
+//                Log.v("ImageURLl",chatId.size()+"");
+                for(int i=0;i < chatId.size();i++) {
+                    myRef.child("chatInfo").child(chatId.get(i)).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                            Log.v("ImageURLl",dataSnapshot.getValue().toString());
+                            ChatData2 chatData2 = dataSnapshot.getValue(ChatData2.class);
+                            Log.v("ImageURLl", chatData2.getImageUrl());
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+
+
+    }
+
+    public void onSendClick(View view) {
+        chatAdapter.addItem(new ChatData("Kr Lee",edtReply.getText().toString(),"",10));
+
+        String id = "kr-lee";
+        String friendId = "takuma-lee";
+        String timesamp = Calendar.getInstance().getTimeInMillis()+"";
+        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("id").setValue("takuma-lee");
+        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("type").setValue("text");
+        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("textContent").setValue(edtReply.getText().toString());
+        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("imageUrl").setValue("");
+
+        edtReply.setText("");
+    }
+
     public View getTabView(int position, String icon) {
         View view = LayoutInflater.from(this).inflate(R.layout.layout_icon, null);
         TextView txt_title = (TextView) view.findViewById(R.id.textView);
         ImageView img_title = (ImageView) view.findViewById(R.id.imageView);
-        Picasso.get().load(icon).into(img_title);
-
+//        Picasso.get().load(icon).into(img_title);
+        Glide.with(this).load(icon).into(img_title);
         return view;
     }
 
     public void onIconClick(View view) {
         if(!iconFlag) {
+            closeKeyBoard();
             iconLayout.setVisibility(View.VISIBLE);
             iconFlag = true;
 
-//            FirebaseDatabase database = FirebaseDatabase.getInstance();
-//            DatabaseReference myRef = database.getReference();
             final int size = UserInfo.getInstance().getIconList().size();
             for(int i=0;i < UserInfo.getInstance().getIconList().size();i++) {
                 final String iconId = UserInfo.getInstance().getIconList().get(i);
@@ -155,12 +192,22 @@ public class MainActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError databaseError) {}
                 });
             }
-
-
         } else {
             iconLayout.setVisibility(View.GONE);
             iconFlag = false;
         }
     }
 
+    public void onEditTextClick(View view) {
+        iconLayout.setVisibility(View.GONE);
+        iconFlag = false;
+    }
+
+    private void closeKeyBoard() {
+        View view = this.getCurrentFocus();
+        if(view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 }

@@ -6,6 +6,7 @@ public class UserInfo {
     private static UserInfo userInfo = new UserInfo();
     private String mName;
     private ArrayList<String> iconList = new ArrayList<>();
+    private ArrayList<String> friendsList = new ArrayList<>();
 
     private UserInfo() {}
 
@@ -14,10 +15,6 @@ public class UserInfo {
             userInfo = new UserInfo();
         }
         return userInfo;
-    }
-
-    public UserInfo(String name) {
-        this.mName = name;
     }
 
     public void setName(String name) {
@@ -34,5 +31,17 @@ public class UserInfo {
 
     public ArrayList<String> getIconList() {
         return iconList;
+    }
+
+    public void addFriend(String friendId) {
+        friendsList.add(friendId);
+    }
+
+    public ArrayList<String> getFriendList() {
+        return friendsList;
+    }
+
+    class friend {
+
     }
 }

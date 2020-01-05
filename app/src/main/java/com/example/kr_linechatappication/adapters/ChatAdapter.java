@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.kr_linechatappication.datas.ChatData;
 import com.example.kr_linechatappication.datas.CircleTransform;
 import com.example.kr_linechatappication.R;
@@ -39,6 +41,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         chatRecyclerView.smoothScrollToPosition(chatDataArrayList.size());
         Log.v("test123","111");
         Log.v("test123",""+chatDataArrayList.size());
+    }
+
+    public void clearItem() {
+        chatDataArrayList.clear();
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -122,7 +129,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void bindToSelf(ChatData chatData) {
-            Picasso.get().load(chatData.getContent()).into(imageView);
+//            Picasso.get().load(chatData.getContent()).into(imageView);
+            Glide.with(mContext).load(chatData.getContent()).into(imageView);
         }
     }
 
@@ -137,7 +145,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void bindToSelf(ChatData chatData) {
-            Picasso.get().load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imgHeader);
+//            Picasso.get().load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imgHeader);
+            Glide.with(mContext).load(R.drawable.ic_launcher).apply(RequestOptions.circleCropTransform()).into(imgHeader);
             txtContent.setText(chatData.getContent());
         }
     }
@@ -151,7 +160,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void bindToSelf(ChatData chatData) {
-            Picasso.get().load(chatData.getContent()).into(imageView);
+//            Picasso.get().load(chatData.getContent()).into(imageView);
+            Glide.with(mContext).load(chatData.getContent()).into(imageView);
         }
     }
 }

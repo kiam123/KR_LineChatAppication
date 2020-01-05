@@ -72,6 +72,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:scrollbars="vertical"
+                        android:onClick="onEditTextClick"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/imgIcon"
                         app:layout_constraintStart_toStartOf="parent"
