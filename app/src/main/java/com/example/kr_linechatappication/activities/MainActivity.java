@@ -36,6 +36,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView chatRecyclerView;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.v("error", "wtf");
 
         getUserData();
         initView();
@@ -66,22 +69,49 @@ public class MainActivity extends AppCompatActivity {
         getChatMessenge();
     }
 
+
+
     public void testcase() {
-        chatAdapter.addItem(new ChatData("Takuma Lee","你好啊，Kr Lee 我是你的導師","",20));
-        chatAdapter.addItem(new ChatData("Kr Lee","https://i.imgur.com/NUyttbnb.jpg","",21));
-        chatAdapter.addItem(new ChatData("Kr Lee","你好， 我叫Kr Lee，很開心認識你，有幸在你的領導之下，可以變得更強","",10));
-        chatAdapter.addItem(new ChatData("Kr Lee","https://i.imgur.com/NUyttbnb.jpg","",11));
+//        chatAdapter.addItem(new ChatData("Takuma Lee","你好啊，Kr Lee 我是你的導師","",20));
+//        chatAdapter.addItem(new ChatData("Kr Lee","https://i.imgur.com/NUyttbnb.jpg","",21));
+//        chatAdapter.addItem(new ChatData("Kr Lee","你好， 我叫Kr Lee，很開心認識你，有幸在你的領導之下，可以變得更強","",10));
+//        chatAdapter.addItem(new ChatData("Kr Lee","https://i.imgur.com/NUyttbnb.jpg","",11));
     }
 
     public void getUserData() {
-        myRef.child("users").child("kr-lee").addValueEventListener(new ValueEventListener() {
+//        UserInfo.getInstance().setName("kr-lee");
+//        UserInfo.getInstance().setFriend("takuma-lee");
+        UserInfo.getInstance().setName("takuma-lee");
+        UserInfo.getInstance().setFriend("kr-lee");
+
+        myRef.child("users").child(UserInfo.getInstance().getName()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 for(DataSnapshot snapshot: dataSnapshot.child("icons").getChildren()) {
                     UserInfo.getInstance().addIcon(snapshot.getValue().toString());
+
                 }
                 for(DataSnapshot snapshot: dataSnapshot.child("friends").getChildren()) {
                     UserInfo.getInstance().addFriend(snapshot.getValue().toString());
+                }
+
+                if(dataSnapshot.hasChild("headerImage")) {
+                    UserInfo.getInstance().setHeaderImage(dataSnapshot.child("headerImage").getValue().toString());
+//                    Log.v("wtf", dataSnapshot.child("headerImage").getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+
+        myRef.child("users").child(UserInfo.getInstance().getFriend()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild("headerImage")) {
+                    UserInfo.getInstance().setFriendHeaderImage(dataSnapshot.child("headerImage").getValue().toString());
+//                    Log.v("wtf123123", dataSnapshot.child("headerImage").getValue().toString());
                 }
             }
 
@@ -114,22 +144,22 @@ public class MainActivity extends AppCompatActivity {
     public void getChatMessenge() {
 //        Log.v("ImageURLl", "123123");
         final ArrayList<String> chatId = new ArrayList<String>();
-        myRef.child("users").child("kr-lee").child("friends").child("takuma-lee").child("chatId").addValueEventListener(new ValueEventListener() {
+        myRef.child("users").child(UserInfo.getInstance().getName()).child("friends").child(UserInfo.getInstance().getFriend()).child("chatId").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                chatAdapter.clearItem();
                 chatId.clear();
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     chatId.add(snapshot.getValue().toString());
 //                    Log.v("ImageURLl",snapshot.getValue().toString());
                 }
-//                Log.v("ImageURLl",chatId.size()+"");
                 for(int i=0;i < chatId.size();i++) {
                     myRef.child("chatInfo").child(chatId.get(i)).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                            Log.v("ImageURLl",dataSnapshot.getValue().toString());
-                            ChatData2 chatData2 = dataSnapshot.getValue(ChatData2.class);
-                            Log.v("ImageURLl", chatData2.getImageUrl());
+                            ChatData2 chatData = dataSnapshot.getValue(ChatData2.class);
+                            chatAdapter.addItem(chatData);
+//                            Log.v("ImageURLl", chatData.getImageUrl());
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {}
@@ -144,15 +174,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSendClick(View view) {
-        chatAdapter.addItem(new ChatData("Kr Lee",edtReply.getText().toString(),"",10));
-
-        String id = "kr-lee";
-        String friendId = "takuma-lee";
+//        chatAdapter.addItem(new ChatData("Kr Lee",edtReply.getText().toString(),"",10));
+//        String id = "kr-lee";
+//        String friendId = "takuma-lee";
+//        String timesamp = Calendar.getInstance().getTimeInMillis()+"";
+//        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("id").setValue("takuma-lee");
+//        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("type").setValue("text");
+//        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("textContent").setValue(edtReply.getText().toString());
+//        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("imageUrl").setValue("");
+//        chatAdapter.addItem(new ChatData2("", edtReply.getText().toString(), "takuma-lee", UserInfo.getInstance().getName(), "text"));
+//        Log.v("texttext1", "123123");
+        String id = UserInfo.getInstance().getName();
+        String friendId = UserInfo.getInstance().getFriend();
         String timesamp = Calendar.getInstance().getTimeInMillis()+"";
-        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("id").setValue("takuma-lee");
-        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("type").setValue("text");
-        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("textContent").setValue(edtReply.getText().toString());
-        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("imageUrl").setValue("");
+//        Log.v("texttext2", "123123");
+//        ChatData2 chatData = new ChatData2("", edtReply.getText().toString(), "takuma-lee", UserInfo.getInstance().getName(), "text");
+        ChatData2 chatData = new ChatData2();
+        chatData.setImageUrl("");
+        chatData.setMessenge(edtReply.getText().toString());
+        chatData.setReceiver(UserInfo.getInstance().getFriend());
+        chatData.setSender(UserInfo.getInstance().getName());
+        chatData.setType("text");
+
+//        Log.v("texttext3", chatData.getType());
+        myRef.child("chatInfo").child(timesamp).setValue(chatData);
+
+
+        myRef.child("users").child(id).child("friends").child(friendId).child("chatId").child(chatAdapter.getItemCount()+"").setValue(timesamp);
+        myRef.child("users").child(friendId).child("friends").child(id).child("chatId").child(chatAdapter.getItemCount()+"").setValue(timesamp);
+
+//        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("id").setValue("takuma-lee");
+//        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("type").setValue("text");
+//        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("textContent").setValue(edtReply.getText().toString());
+//        myRef.child(id).child("friends").child(friendId).child("chatContent").child(timesamp).child("imageUrl").setValue("");
+
 
         edtReply.setText("");
     }
@@ -162,7 +217,12 @@ public class MainActivity extends AppCompatActivity {
         TextView txt_title = (TextView) view.findViewById(R.id.textView);
         ImageView img_title = (ImageView) view.findViewById(R.id.imageView);
 //        Picasso.get().load(icon).into(img_title);
-        Glide.with(this).load(icon).into(img_title);
+        try {
+//            Log.v("asd12345", icon);
+            Glide.with(this).load(icon).into(img_title);
+        } catch (Exception e) {
+            Log.v("error", e.toString());
+        }
         return view;
     }
 
@@ -181,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                         int i=0;
                         for(DataSnapshot snapshot: dataSnapshot.getChildren()) {
                             if(simpleFragmentPagerAdapter.getItem().size() < size  && snapshot.getKey().equals("catHeaderUrl")) {
-                                Log.v("testttting", snapshot.toString());
+//                                Log.v("testttting", snapshot.toString());
                                 simpleFragmentPagerAdapter.addItem(new IconFragment(chatAdapter, iconId));
                                 iconTabLayout.getTabAt(i).setCustomView(getTabView(i, snapshot.getValue().toString()));
                             }

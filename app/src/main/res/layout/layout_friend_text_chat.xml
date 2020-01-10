@@ -7,22 +7,15 @@
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp">
 
-    <FrameLayout
-        android:id="@+id/layoutWithCircleDrawable"
-        android:layout_marginStart="8dp"
+    <ImageView
+        android:id="@+id/imgHeader"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/header_oval"
+        app:srcCompat="@drawable/ic_launcher"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/img_header"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/ic_launcher" />
-
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <!--    <FrameLayout-->
     <!--        android:id="@+id/layoutWithCircleDrawable"-->
@@ -55,7 +48,7 @@
         android:paddingBottom="10dp"
         android:text="TextViewasdasdasdasdasdasdasdasdasdasdasdasdasdTextViewasdasdasdasdasdasdasdasd asdasdasdasdasdTextViewasdasdasdasdasd asdasdasd asdasdasdasdasdTextViewasdasdasdasdasd asdasdasd asdasdasdasdasdTextViewasdasdasdasdasd asdasdasd asdasdasdasdasd"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/layoutWithCircleDrawable"
+        app:layout_constraintStart_toEndOf="@+id/imgHeader"
         app:layout_constraintTop_toTopOf="parent" />
     <!--    android:textAllCaps="false" 設定button不會轉換成大寫-->
 </androidx.constraintlayout.widget.ConstraintLayout>

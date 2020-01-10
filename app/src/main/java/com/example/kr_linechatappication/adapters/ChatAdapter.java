@@ -13,16 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.kr_linechatappication.datas.ChatData;
-import com.example.kr_linechatappication.datas.CircleTransform;
+import com.example.kr_linechatappication.datas.ChatData2;
 import com.example.kr_linechatappication.R;
-import com.squareup.picasso.Picasso;
+import com.example.kr_linechatappication.datas.UserInfo;
 
 import java.util.ArrayList;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
-    ArrayList<ChatData> chatDataArrayList;
+    //    ArrayList<ChatData> chatDataArrayList;
+    ArrayList<ChatData2> chatDataArrayList;
     RecyclerView chatRecyclerView;
     public static final int VIEW_TYPE_SELF_TEXT_CHAT = 10;
     public static final int VIEW_TYPE_SELF_IMAGE_CHAT = 11;
@@ -31,16 +31,17 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public ChatAdapter(Context context, RecyclerView chatRecyclerView) {
         this.mContext = context;
-        this.chatDataArrayList = new ArrayList<ChatData>();
+//        this.chatDataArrayList = new ArrayList<ChatData>();
+        this.chatDataArrayList = new ArrayList<ChatData2>();
         this.chatRecyclerView = chatRecyclerView;
     }
 
-    public void addItem(ChatData chatData) {
+    public void addItem(ChatData2 chatData) {
         chatDataArrayList.add(chatData);
         notifyDataSetChanged();
         chatRecyclerView.smoothScrollToPosition(chatDataArrayList.size());
-        Log.v("test123","111");
-        Log.v("test123",""+chatDataArrayList.size());
+//        Log.v("test123", "111");
+//        Log.v("test123", "" + chatDataArrayList.size());
     }
 
     public void clearItem() {
@@ -51,23 +52,19 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.v("test123","2");
+//        Log.v("test123", "2");
         View view;
-        if(viewType == VIEW_TYPE_SELF_TEXT_CHAT) {
+        if (viewType == VIEW_TYPE_SELF_TEXT_CHAT) {
             view = LayoutInflater.from(mContext).inflate(R.layout.layout_self_text_chat, parent, false);
-            Log.v("test123","3");
             return new SelfChatViewHolder(view);
-        } else if(viewType == VIEW_TYPE_SELF_IMAGE_CHAT) {
+        } else if (viewType == VIEW_TYPE_SELF_IMAGE_CHAT) {
             view = LayoutInflater.from(mContext).inflate(R.layout.layout_self_image_chat, parent, false);
-            Log.v("test123","3");
             return new SelfImageChatViewHolder(view);
-        } else if(viewType == VIEW_TYPE_FRIEND_TEXT_CHAT) {
+        } else if (viewType == VIEW_TYPE_FRIEND_TEXT_CHAT) {
             view = LayoutInflater.from(mContext).inflate(R.layout.layout_friend_text_chat, parent, false);
-            Log.v("test123","4");
             return new FriendChatViewHolder(view);
-        } else if(viewType == VIEW_TYPE_FRIEND_IMAGE_CHAT) {
+        } else if (viewType == VIEW_TYPE_FRIEND_IMAGE_CHAT) {
             view = LayoutInflater.from(mContext).inflate(R.layout.layout_friend_image_chat, parent, false);
-            Log.v("test123","4");
             return new FriendImageChatViewHolder(view);
         }
 
@@ -76,18 +73,17 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Log.v("test123","5");
-        if(getItemViewType(position) == VIEW_TYPE_SELF_TEXT_CHAT) {
-            ChatData chatData = (ChatData) chatDataArrayList.get(position);
+        if (getItemViewType(position) == VIEW_TYPE_SELF_TEXT_CHAT) {
+            ChatData2 chatData = (ChatData2) chatDataArrayList.get(position);
             ((SelfChatViewHolder) holder).bindToSelf(chatData);
-        } else if(getItemViewType(position) == VIEW_TYPE_SELF_IMAGE_CHAT) {
-            ChatData chatData = (ChatData) chatDataArrayList.get(position);
+        } else if (getItemViewType(position) == VIEW_TYPE_SELF_IMAGE_CHAT) {
+            ChatData2 chatData = (ChatData2) chatDataArrayList.get(position);
             ((SelfImageChatViewHolder) holder).bindToSelf(chatData);
-        } else if(getItemViewType(position) == VIEW_TYPE_FRIEND_TEXT_CHAT) {
-            ChatData chatData = (ChatData) chatDataArrayList.get(position);
+        } else if (getItemViewType(position) == VIEW_TYPE_FRIEND_TEXT_CHAT) {
+            ChatData2 chatData = (ChatData2) chatDataArrayList.get(position);
             ((FriendChatViewHolder) holder).bindToSelf(chatData);
-        } else if(getItemViewType(position) == VIEW_TYPE_FRIEND_IMAGE_CHAT) {
-            ChatData chatData = (ChatData) chatDataArrayList.get(position);
+        } else if (getItemViewType(position) == VIEW_TYPE_FRIEND_IMAGE_CHAT) {
+            ChatData2 chatData = (ChatData2) chatDataArrayList.get(position);
             ((FriendImageChatViewHolder) holder).bindToSelf(chatData);
         }
 
@@ -95,14 +91,26 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        Log.v("test123","6");
         return chatDataArrayList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        Log.v("test123","7");
-        return chatDataArrayList.get(position).getType();
+//        Log.v("sender", UserInfo.getInstance().getName());
+        if (chatDataArrayList.get(position).getSender().equals(UserInfo.getInstance().getName())) {
+            if (chatDataArrayList.get(position).getType().equals("text")) {
+//                Log.v("sender","1 "+chatDataArrayList.get(position).getSender()+" "+chatDataArrayList.get(position).getSender().equals(UserInfo.getInstance().getName()));
+//                Log.v("sender","2 "+chatDataArrayList.get(position).getReceiver()+" "+chatDataArrayList.get(position).getReceiver().equals(UserInfo.getInstance().getName()));
+                return VIEW_TYPE_SELF_TEXT_CHAT;
+            }
+            return VIEW_TYPE_SELF_IMAGE_CHAT;
+        }
+        else {
+            if (chatDataArrayList.get(position).getType().equals("text")) {
+                return VIEW_TYPE_FRIEND_TEXT_CHAT;
+            }
+            return VIEW_TYPE_FRIEND_IMAGE_CHAT;
+        }
     }
 
     class SelfChatViewHolder extends RecyclerView.ViewHolder {
@@ -113,9 +121,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         }
 
-        public void bindToSelf(ChatData chatData) {
+        public void bindToSelf(ChatData2 chatData) {
             txtContent = (TextView) itemView.findViewById(R.id.txtContent);
-            txtContent.setText(chatData.getContent());
+            txtContent.setText(chatData.getMessenge());
 
         }
     }
@@ -128,40 +136,62 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
         }
 
-        public void bindToSelf(ChatData chatData) {
+        public void bindToSelf(ChatData2 chatData) {
 //            Picasso.get().load(chatData.getContent()).into(imageView);
-            Glide.with(mContext).load(chatData.getContent()).into(imageView);
+            try {
+//                Log.v("asd", chatData.getImageUrl());
+                Glide.with(mContext).load(chatData.getImageUrl()).into(imageView);
+            } catch (Exception e) {
+                Log.v("error", e.toString());
+            }
         }
     }
 
     class FriendChatViewHolder extends RecyclerView.ViewHolder {
         ImageView imgHeader;
         TextView txtContent;
+
         public FriendChatViewHolder(@NonNull View itemView) {
             super(itemView);
-            Log.v("test123","8");
-            imgHeader = (ImageView) itemView.findViewById(R.id.img_header);
+            imgHeader = (ImageView) itemView.findViewById(R.id.imgHeader);
             txtContent = (TextView) itemView.findViewById(R.id.txtContent);
         }
 
-        public void bindToSelf(ChatData chatData) {
+        public void bindToSelf(ChatData2 chatData) {
 //            Picasso.get().load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imgHeader);
-            Glide.with(mContext).load(R.drawable.ic_launcher).apply(RequestOptions.circleCropTransform()).into(imgHeader);
-            txtContent.setText(chatData.getContent());
+            try {
+//                Log.v("errorasd123", UserInfo.getInstance().getFriendHeaderImage());
+                Glide.with(mContext).load(UserInfo.getInstance().getFriendHeaderImage()).into(imgHeader);
+                txtContent.setText(chatData.getMessenge());
+            } catch (Exception e) {
+                Log.v("error", e.toString());
+            }
+
+            txtContent.setText(chatData.getMessenge());
         }
     }
 
     class FriendImageChatViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
+        ImageView imgHeader;
 
         public FriendImageChatViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            imgHeader = (ImageView) itemView.findViewById(R.id.imgHeader);
         }
 
-        public void bindToSelf(ChatData chatData) {
+        public void bindToSelf(ChatData2 chatData) {
 //            Picasso.get().load(chatData.getContent()).into(imageView);
-            Glide.with(mContext).load(chatData.getContent()).into(imageView);
+            try {
+//                Log.v("errorasd123", "wtf "+chatData.getImageUrl());
+//                Log.v("errorasd123", "wtf "+UserInfo.getInstance().getFriendHeaderImage());
+                Glide.with(mContext).load(UserInfo.getInstance().getFriendHeaderImage()).into(imgHeader);
+                Glide.with(mContext).load(chatData.getImageUrl()).into(imageView);
+
+            } catch (Exception e) {
+                Log.v("error", e.toString());
+            }
         }
     }
 }
