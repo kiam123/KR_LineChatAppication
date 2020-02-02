@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.kr_linechatappication.datas.ChatData2;
 import com.example.kr_linechatappication.R;
 import com.example.kr_linechatappication.datas.UserInfo;
@@ -162,6 +161,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             try {
 //                Log.v("errorasd123", UserInfo.getInstance().getFriendHeaderImage());
                 Glide.with(mContext).load(UserInfo.getInstance().getFriendHeaderImage()).into(imgHeader);
+//                Glide.with(mContext).load(UserInfo.getInstance().getFriendHeaderImage()).apply(RequestOptions.circleCropTransform()).into(imgHeader);
                 txtContent.setText(chatData.getMessenge());
             } catch (Exception e) {
                 Log.v("error", e.toString());
@@ -186,6 +186,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             try {
 //                Log.v("errorasd123", "wtf "+chatData.getImageUrl());
 //                Log.v("errorasd123", "wtf "+UserInfo.getInstance().getFriendHeaderImage());
+
+//                Glide.with(mContext).load(UserInfo.getInstance().getFriendHeaderImage()).apply(RequestOptions.circleCropTransform()).into(imgHeader);
                 Glide.with(mContext).load(UserInfo.getInstance().getFriendHeaderImage()).into(imgHeader);
                 Glide.with(mContext).load(chatData.getImageUrl()).into(imageView);
 
