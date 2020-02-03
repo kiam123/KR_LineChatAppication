@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.kr_linechatappication.R;
-import com.example.kr_linechatappication.datas.ChatData2;
+import com.example.kr_linechatappication.datas.ChatData;
 import com.example.kr_linechatappication.datas.IconData;
 import com.example.kr_linechatappication.datas.UserInfo;
 import com.google.firebase.database.DatabaseReference;
@@ -84,7 +84,7 @@ public class IconAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            ChatData2 chatData = new ChatData2();
+            ChatData chatData = new ChatData();
             chatData.setImageUrl(chatDataArrayList.get(getLayoutPosition()).getmImageIcon());
             chatData.setMessenge("");
             chatData.setReceiver(UserInfo.getInstance().getFriend());

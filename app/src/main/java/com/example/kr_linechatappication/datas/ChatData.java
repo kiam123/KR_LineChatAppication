@@ -1,9 +1,9 @@
 package com.example.kr_linechatappication.datas;
 
-public class ChatData2 {
+public class ChatData {
     String imageUrl, messenge, receiver, sender, type;
 
-//    public ChatData2(String imageUrl, String messenge, String receiver, String sender, String type) {
+//    public ChatData(String imageUrl, String messenge, String receiver, String sender, String type) {
 //        this.imageUrl = imageUrl;
 //        this.messenge = messenge;
 //        this.receiver = receiver;

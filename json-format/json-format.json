@@ -1,4 +1,12 @@
 {
+  "Tokens" : {
+    "kr-lee" : {
+      "token" : "fLy-5Bjp0zY:APA91bGCAN4L-JVZVigiEtB_NGLH4_lZYITXED71bUqPpcWRrIYsb34n_lgp3EPlJ_jGI53lMEfmktGUxqKALf1HfTYxt_z92SldlIwKfpp0lgUVdT9YBgbWTgXdk8rsJebW6NalMHs-"
+    },
+    "takuma-lee" : {
+      "token" : "fOfICQwBwzg:APA91bHRXbaZ7grYcyAzyrZbctkeWKaf-wsQVKK-I486GULtrA4CtqtHr-0zcvWuC2vTNlKmr5htrq0fppDnLLkCvtTnlaalByLoXVP2PmBONnxT4jQ8VRJStIgZe9habECyyk4apn94"
+    }
+  },
   "chatInfo" : {
     "1578658266968" : {
       "imageUrl" : "",
@@ -48,9 +56,9 @@
       "password" : "123123"
     },
     "takuma-lee" : {
+      "account" : "kr-lee",
       "friends" : {
         "kr-lee" : {
-          "account" : "kr-lee",
           "chatId" : [ "1578658266968", "1578658269798", "1578658310587", "1578658331367" ]
         }
       },

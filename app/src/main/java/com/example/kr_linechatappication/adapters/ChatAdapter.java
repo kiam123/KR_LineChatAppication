@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.kr_linechatappication.datas.ChatData2;
+import com.example.kr_linechatappication.datas.ChatData;
 import com.example.kr_linechatappication.R;
 import com.example.kr_linechatappication.datas.UserInfo;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
     //    ArrayList<ChatData> chatDataArrayList;
-    ArrayList<ChatData2> chatDataArrayList;
+    ArrayList<ChatData> chatDataArrayList;
     RecyclerView chatRecyclerView;
     public static final int VIEW_TYPE_SELF_TEXT_CHAT = 10;
     public static final int VIEW_TYPE_SELF_IMAGE_CHAT = 11;
@@ -31,11 +31,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public ChatAdapter(Context context, RecyclerView chatRecyclerView) {
         this.mContext = context;
 //        this.chatDataArrayList = new ArrayList<ChatData>();
-        this.chatDataArrayList = new ArrayList<ChatData2>();
+        this.chatDataArrayList = new ArrayList<ChatData>();
         this.chatRecyclerView = chatRecyclerView;
     }
 
-    public void addItem(ChatData2 chatData) {
+    public void addItem(ChatData chatData) {
         chatDataArrayList.add(chatData);
         notifyDataSetChanged();
         chatRecyclerView.smoothScrollToPosition(chatDataArrayList.size());
@@ -73,16 +73,16 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_SELF_TEXT_CHAT) {
-            ChatData2 chatData = (ChatData2) chatDataArrayList.get(position);
+            ChatData chatData = (ChatData) chatDataArrayList.get(position);
             ((SelfChatViewHolder) holder).bindToSelf(chatData);
         } else if (getItemViewType(position) == VIEW_TYPE_SELF_IMAGE_CHAT) {
-            ChatData2 chatData = (ChatData2) chatDataArrayList.get(position);
+            ChatData chatData = (ChatData) chatDataArrayList.get(position);
             ((SelfImageChatViewHolder) holder).bindToSelf(chatData);
         } else if (getItemViewType(position) == VIEW_TYPE_FRIEND_TEXT_CHAT) {
-            ChatData2 chatData = (ChatData2) chatDataArrayList.get(position);
+            ChatData chatData = (ChatData) chatDataArrayList.get(position);
             ((FriendChatViewHolder) holder).bindToSelf(chatData);
         } else if (getItemViewType(position) == VIEW_TYPE_FRIEND_IMAGE_CHAT) {
-            ChatData2 chatData = (ChatData2) chatDataArrayList.get(position);
+            ChatData chatData = (ChatData) chatDataArrayList.get(position);
             ((FriendImageChatViewHolder) holder).bindToSelf(chatData);
         }
 
@@ -120,7 +120,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         }
 
-        public void bindToSelf(ChatData2 chatData) {
+        public void bindToSelf(ChatData chatData) {
             txtContent = (TextView) itemView.findViewById(R.id.txtContent);
             txtContent.setText(chatData.getMessenge());
 
@@ -135,7 +135,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
         }
 
-        public void bindToSelf(ChatData2 chatData) {
+        public void bindToSelf(ChatData chatData) {
 //            Picasso.get().load(chatData.getContent()).into(imageView);
             try {
 //                Log.v("asd", chatData.getImageUrl());
@@ -156,7 +156,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             txtContent = (TextView) itemView.findViewById(R.id.txtContent);
         }
 
-        public void bindToSelf(ChatData2 chatData) {
+        public void bindToSelf(ChatData chatData) {
 //            Picasso.get().load(R.drawable.ic_launcher).transform(new CircleTransform()).into(imgHeader);
             try {
 //                Log.v("errorasd123", UserInfo.getInstance().getFriendHeaderImage());
@@ -181,7 +181,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             imgHeader = (ImageView) itemView.findViewById(R.id.imgHeader);
         }
 
-        public void bindToSelf(ChatData2 chatData) {
+        public void bindToSelf(ChatData chatData) {
 //            Picasso.get().load(chatData.getContent()).into(imageView);
             try {
 //                Log.v("errorasd123", "wtf "+chatData.getImageUrl());

@@ -58,6 +58,13 @@ public class LoginActivity extends AppCompatActivity {
                 if(dataSnapshot.getValue().toString().equals(password)) {
                     Intent intent = new Intent();
                     intent.setClass(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("account", account);
+                    //TODO 需要把朋友刪掉
+                    if(account.equals("kr-lee")) {
+                        intent.putExtra("friend", "takuma-lee");
+                    } else {
+                        intent.putExtra("friend", "kr-lee");
+                    }
                     startActivity(intent);
                 } else {
                     Toast.makeText(getApplicationContext(), "賬號或密碼錯誤", Toast.LENGTH_SHORT).show();
